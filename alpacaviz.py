@@ -157,7 +157,7 @@ st.markdown(
     "For more background on this project and to run it for yourself, visit the [GitHub repository](https://github.com/Cerchie/alpaca-kafka-flink-streamlit/tree/main)."
 )
 st.markdown(
-    "Note: the Kafka consumer for this project reads from the earlist offset on Mar 13"
+    "Note: the Kafka consumer for this project reads from the earlist offset on Mar 13. The data for this simulation is not live. To create your own live app, follow the instructions [here](https://github.com/Cerchie/alpaca-kafka-flink-streamlit?tab=readme-ov-file#how-to-use-flinksql-with-kafka-streamlit-and-the-alpaca-api). "
 )
 
 asyncio.run(main())

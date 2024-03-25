@@ -31,9 +31,8 @@ consumer = Consumer(config_dict)
 
 
 st.title("Stock Price Averages")
-st.write(
-    "View tumbling averages for AAPL stock. The chart may not show up if trading is closed for the day or otherwise not happening."
-)
+st.write("View a simulation of tumbling averages for AAPL stock.")
+my_slot1 = st.empty()
 
 option = st.selectbox(
     "Start viewing stock for:",
@@ -49,6 +48,7 @@ async def main():
 
 
 async def display_quotes(component):
+    message_count = 0
     component.empty()
     price_history = []
     window_history = []
@@ -56,10 +56,10 @@ async def display_quotes(component):
     consumer.assign([TopicPartition(f"tumble_interval_{topic_name}", 3)])
     consumer.subscribe([f"tumble_interval_{topic_name}"])
 
-    while True:
+    while message_count <= 80:
         try:
             # print("Polling topic")
-            msg = consumer.poll(5)
+            msg = consumer.poll(1)
 
             # print("Pausing")
             await asyncio.sleep(0.5)
@@ -87,6 +87,7 @@ async def display_quotes(component):
 
                 price_history.append(last_price)
                 window_history.append(window_end_string)
+                message_count += 1
 
                 data = pd.DataFrame(
                     {
@@ -114,12 +115,17 @@ async def display_quotes(component):
                     )
                     .transform_filter((alt.datum.rank < 20))
                 )
-
+                st.spinner("Simulation running...")
                 st.altair_chart(chart, theme=None, use_container_width=True)
-
         except KeyboardInterrupt:
             print("Canceled by user.")
             consumer.close()
+
+        if message_count == 80:
+            my_slot1.markdown(
+                """
+:green[Simulation complete. Refresh the page to replay.]"""
+            )
 
         # We create the placeholder once
 
@@ -157,7 +163,7 @@ st.markdown(
     "For more background on this project and to run it for yourself, visit the [GitHub repository](https://github.com/Cerchie/alpaca-kafka-flink-streamlit/tree/main)."
 )
 st.markdown(
-    "Note: the Kafka consumer for this project reads from the earlist offset on Mar 13. The data for this simulation is not live. To create your own live app, follow the instructions [here](https://github.com/Cerchie/alpaca-kafka-flink-streamlit?tab=readme-ov-file#how-to-use-flinksql-with-kafka-streamlit-and-the-alpaca-api). "
+    "Note: the Kafka consumer for this project reads from the earlist offset on Mar 13. The data for this simulation is real but not live. To create your own live app, follow the instructions [here](https://github.com/Cerchie/alpaca-kafka-flink-streamlit?tab=readme-ov-file#how-to-use-flinksql-with-kafka-streamlit-and-the-alpaca-api). "
 )
 
 asyncio.run(main())

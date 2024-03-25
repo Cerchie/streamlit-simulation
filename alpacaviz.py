@@ -27,7 +27,6 @@ config_dict = {
     "group.id": "consumer" + f"{randomword(2)}",
 }
 # https://stackoverflow.com/questions/38032932/attaching-kafaconsumer-assigned-to-a-specific-partition
-consumer = Consumer(config_dict)
 
 
 st.title("Stock Price Averages")
@@ -48,13 +47,15 @@ async def main():
 
 
 async def display_quotes(component):
+    consumer = Consumer(config_dict)
+
+    partition = TopicPartition(f"tumble_interval_AAPL", 3, 413)
+    consumer.assign([partition])
+    consumer.seek(partition)
     message_count = 0
     component.empty()
     price_history = []
     window_history = []
-    topic_name = option
-    consumer.assign([TopicPartition(f"tumble_interval_{topic_name}", 3)])
-    consumer.subscribe([f"tumble_interval_{topic_name}"])
 
     while message_count <= 80:
         try:

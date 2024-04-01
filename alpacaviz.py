@@ -30,12 +30,12 @@ config_dict = {
 
 
 st.title("Stock Price Averages")
-st.write("View a simulation of tumbling averages for AAPL stock.")
+st.write("View a simulation of tumbling averages for SPY stock.")
 my_slot1 = st.empty()
 
 option = st.selectbox(
     "Start viewing stock for:",
-    (["AAPL"]),
+    (["SPY"]),
     index=None,
 )
 
@@ -49,7 +49,7 @@ async def main():
 async def display_quotes(component):
     consumer = Consumer(config_dict)
 
-    partition = TopicPartition(f"tumble_interval_AAPL", 3, 413)
+    partition = TopicPartition(f"tumble_interval_SPY", 0, 7)
     consumer.assign([partition])
     consumer.seek(partition)
     message_count = 0
@@ -149,7 +149,7 @@ st.code(
     """INSERT INTO tumble_interval
 SELECT symbol, DATE_FORMAT(window_start,'yyyy-MM-dd hh:mm:ss.SSS'), DATE_FORMAT(window_end,'yyyy-MM-dd hh:mm:ss.SSS'), AVG(price)
 FROM TABLE(
-        TUMBLE(TABLE AAPL, DESCRIPTOR($rowtime), INTERVAL '5' SECONDS))
+        TUMBLE(TABLE SPY, DESCRIPTOR($rowtime), INTERVAL '5' SECONDS))
 GROUP BY
     symbol,
     window_start,

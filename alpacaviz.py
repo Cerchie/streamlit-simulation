@@ -143,7 +143,7 @@ st.image(
     caption="chart graphing relationship of different nodes in the data pipeline",
 )
 st.markdown(
-    "First, data is piped from the [Alpaca API](https://docs.alpaca.markets/docs/getting-started) websocket into a Kafka topic located in Confluent Cloud. Next, the data is processed in [Confluent Cloud’s](https://confluent.cloud/) Flink SQL workspace with a query like this."
+    "First, data is piped from the [Alpaca API](https://docs.alpaca.markets/docs/getting-started) websocket into an Apache Kafka® topic located in Confluent Cloud. Next, the data is processed in [Confluent Cloud’s](https://confluent.cloud/) Flink SQL workspace with a query like this."
 )
 st.code(
     """INSERT INTO tumble_interval

@@ -10,12 +10,6 @@ from confluent_kafka import Consumer, TopicPartition
 import altair as alt
 
 
-# create new name for consumer on each start so that Kafka can start from beginning each time
-def randomword(length):
-    letters = string.ascii_lowercase
-    return "".join(random.choice(letters) for i in range(length))
-
-
 config_dict = {
     "bootstrap.servers": st.secrets["BOOTSTRAP_URL"],
     "sasl.mechanisms": "PLAIN",
@@ -24,7 +18,7 @@ config_dict = {
     "session.timeout.ms": "45000",
     "sasl.username": st.secrets["SASL_USERNAME"],
     "sasl.password": st.secrets["SASL_PASSWORD"],
-    "group.id": "consumer" + f"{randomword(2)}",
+    "group.id": "consumer_for_stocks",
 }
 # https://stackoverflow.com/questions/38032932/attaching-kafaconsumer-assigned-to-a-specific-partition
 

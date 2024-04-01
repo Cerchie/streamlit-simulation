@@ -158,13 +158,13 @@ GROUP BY
     language="python",
 )
 st.markdown(
-    "Then, the data is consumed from a Kafka topic backing the FlinkSQL table in Confluent Cloud, and visualized using Streamlit."
+    "Then, the data is consumed from a Kafka topic behind the FlinkSQL table in Confluent Cloud, and visualized using Streamlit."
 )
 st.markdown(
     "For more background on this project and to run it for yourself, visit the [GitHub repository](https://github.com/Cerchie/alpaca-kafka-flink-streamlit/tree/main)."
 )
 st.markdown(
-    "Note: the Kafka consumer for this project reads from the earlist offset on Mar 13. The data for this simulation is real but not live. To create your own live app, follow the instructions [here](https://github.com/Cerchie/alpaca-kafka-flink-streamlit?tab=readme-ov-file#how-to-use-flinksql-with-kafka-streamlit-and-the-alpaca-api). "
+    "Note: the Kafka consumer for this project reads from a specific offset created on Apr 1, '24. The data for this simulation is real but not live. To create your own live app, follow the instructions [here](https://github.com/Cerchie/alpaca-kafka-flink-streamlit?tab=readme-ov-file#how-to-use-flinksql-with-kafka-streamlit-and-the-alpaca-api). "
 )
 
 asyncio.run(main())
